@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+from modules.admin.crear_encuesta import CrearEncuestaWindow
 
 class DashboardAdmin:
     def __init__(self, root, username):
@@ -30,7 +31,8 @@ class DashboardAdmin:
                   width=25, command=self.root.destroy).pack(pady=20)
 
     def crear_encuesta(self):
-        messagebox.showinfo("Crear Encuesta", "Aquí se creará la encuesta (implementación pendiente).")
+        nueva_ventana = tk.Toplevel(self.root)
+        CrearEncuestaWindow(nueva_ventana, self.username)
 
     def ver_resultados(self):
         messagebox.showinfo("Ver Resultados", "Aquí se verán los resultados (implementación pendiente).")
