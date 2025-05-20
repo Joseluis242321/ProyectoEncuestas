@@ -1,6 +1,6 @@
 import tkinter as tk
-from tkinter import messagebox
 from modules.admin.crear_encuesta import CrearEncuestaWindow
+from modules.admin.admin_view import AdminResultsWindow  # Asegúrate de que esta ruta sea correcta
 
 class DashboardAdmin:
     def __init__(self, root, username):
@@ -21,6 +21,7 @@ class DashboardAdmin:
         tk.Button(btn_frame, text="Crear Encuesta", font=("Helvetica", 12),
                   width=25, command=self.crear_encuesta).pack(pady=10)
 
+        # Botón unificado que abre el resumen de resultados
         tk.Button(btn_frame, text="Ver Resultados", font=("Helvetica", 12),
                   width=25, command=self.ver_resultados).pack(pady=10)
 
@@ -28,14 +29,22 @@ class DashboardAdmin:
                   width=25, command=self.gestionar_usuarios).pack(pady=10)
 
         tk.Button(btn_frame, text="Cerrar Sesión", font=("Helvetica", 12),
-                  width=25, command=self.root.destroy).pack(pady=20)
+                  width=25, command=self.cerrar_sesion).pack(pady=20)
 
     def crear_encuesta(self):
         nueva_ventana = tk.Toplevel(self.root)
         CrearEncuestaWindow(nueva_ventana, self.username)
 
     def ver_resultados(self):
-        messagebox.showinfo("Ver Resultados", "Aquí se verán los resultados (implementación pendiente).")
+        ventana = tk.Toplevel(self.root)
+        AdminResultsWindow(ventana)
+        
+    def cerrar_sesion(self):
+        from modules.login import LoginWindow
+        self.root.destroy()
+        ventana_login = tk.Tk()
+        LoginWindow(ventana_login)
+        ventana_login.mainloop()
 
     def gestionar_usuarios(self):
-        messagebox.showinfo("Gestionar Usuarios", "Aquí se gestionarán los usuarios (implementación pendiente).")
+        tk.messagebox.showinfo("Gestionar Usuarios", "Aquí se gestionarán los usuarios (implementación pendiente).")

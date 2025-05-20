@@ -7,3 +7,8 @@ class MongoConnection:
 
     def get_collection(self, name):
         return self.db[name]
+    
+    def db_connect():
+        client = MongoClient('mongodb://localhost:27017/')
+        db = client['sistema_encuestas']
+        return db

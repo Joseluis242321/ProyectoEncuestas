@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
+from pymongo import MongoClient
+from modules.user.responder_encuesta import ResponderEncuestaWindow
 
 class DashboardUser:
     def __init__(self, root, username):
@@ -21,7 +23,15 @@ class DashboardUser:
                   width=30, command=self.responder_encuesta).pack(pady=15)
 
         tk.Button(btn_frame, text="Cerrar Sesión", font=("Helvetica", 12),
-                  width=30, command=self.root.destroy).pack(pady=20)
+                  width=30, command=self.cerrar_sesion).pack(pady=20)
 
     def responder_encuesta(self):
-        messagebox.showinfo("Responder Encuesta", "Aquí se responderá la encuesta (implementación pendiente).")
+        ventana = tk.Toplevel(self.root)
+        ResponderEncuestaWindow(ventana, self.username)
+
+    def cerrar_sesion(self):
+        from modules.login import LoginWindow
+        self.root.destroy()
+        ventana_login = tk.Tk()
+        LoginWindow(ventana_login)
+        ventana_login.mainloop()
