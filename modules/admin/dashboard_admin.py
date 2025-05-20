@@ -1,6 +1,6 @@
 import tkinter as tk
 from modules.admin.crear_encuesta import CrearEncuestaWindow
-from modules.admin.admin_view import AdminResultsWindow  # Asegúrate de que esta ruta sea correcta
+from modules.admin.admin_view import AdminResultsWindow
 
 class DashboardAdmin:
     def __init__(self, root, username):
@@ -21,7 +21,6 @@ class DashboardAdmin:
         tk.Button(btn_frame, text="Crear Encuesta", font=("Helvetica", 12),
                   width=25, command=self.crear_encuesta).pack(pady=10)
 
-        # Botón unificado que abre el resumen de resultados
         tk.Button(btn_frame, text="Ver Resultados", font=("Helvetica", 12),
                   width=25, command=self.ver_resultados).pack(pady=10)
 

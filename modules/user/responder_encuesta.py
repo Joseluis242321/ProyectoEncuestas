@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-from db.mongo_connection import MongoConnection as db # Asegúrate de tener esta función correctamente
+from db.mongo_connection import MongoConnection as db
 from bson import ObjectId
 
 class ResponderEncuestaWindow:
@@ -68,7 +68,6 @@ class ResponderEncuestaWindow:
                 return
             respuestas_colectadas.append({"pregunta": texto, "respuesta": valor})
 
-        # Agregar al array "respuestas" del documento encuesta
         self.db.encuestas.update_one(
             {"_id": ObjectId(encuesta["_id"])},
             {"$push": {

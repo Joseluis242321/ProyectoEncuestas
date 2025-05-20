@@ -17,19 +17,15 @@ class RegisterWindow:
         font_label = ("Helvetica", 11)
         font_entry = ("Helvetica", 11)
 
-        # Título principal
         tk.Label(self.root, text="Sistema de Encuestas", font=font_title,
                  bg="#f0f4f7", fg="#2c3e50").pack(pady=(15, 5))
 
-        # Subtítulo
         tk.Label(self.root, text="Registro de Usuario", font=("Helvetica", 14),
                  bg="#f0f4f7", fg="#34495e").pack(pady=(0, 10))
 
-        # Frame del formulario
         frame = tk.Frame(self.root, bg="white", bd=2, relief="ridge")
         frame.place(relx=0.5, rely=0.55, anchor="center", width=420, height=250)
 
-        # Campos de entrada
         tk.Label(frame, text="Nombre de usuario:", font=font_label, bg="white").pack(anchor="w", padx=30, pady=(12, 0))
         self.username_entry = tk.Entry(frame, font=font_entry)
         self.username_entry.pack(padx=30, fill="x")
@@ -43,7 +39,6 @@ class RegisterWindow:
         self.role_combobox.current(0)
         self.role_combobox.pack(padx=30, fill="x")
 
-        # Botón de registrar
         tk.Button(frame, text="Registrar", bg="#16a085", fg="white",
                   font=font_label, command=self.registrar_usuario).pack(pady=18)
 
