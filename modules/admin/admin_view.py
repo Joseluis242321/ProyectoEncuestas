@@ -15,23 +15,25 @@ class AdminResultsWindow:
         self.mostrar_resumen()
 
     def mostrar_resumen(self):
-        
         client = MongoClient('mongodb://localhost:27017/')
         db = client['sistema_encuestas']
-        encuestas = db['encuestas'].find()
+        encuestas = list(db['encuestas'].find())
+        respuestas = list(db['respuestas'].find())
+
+        resumen_total = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
+
+        for r in respuestas:
+            encuesta_id = str(r.get("encuesta_id"))
+            pregunta = r.get("pregunta", "Desconocida")
+            respuesta = r.get("respuesta", "Sin respuesta")
+            resumen_total[encuesta_id][pregunta][respuesta] += 1
 
         for encuesta in encuestas:
+            eid = str(encuesta['_id'])
             self.text.insert(tk.END, f"\n📋 Encuesta: {encuesta.get('titulo', 'Sin título')}\n")
             self.text.insert(tk.END, f"📝 Descripción: {encuesta.get('descripcion', '')}\n\n")
 
-            resumen = defaultdict(lambda: defaultdict(int))
-
-            for respuesta_usuario in encuesta.get("respuestas", []):
-                for r in respuesta_usuario.get("respuestas", []):
-                    pregunta = r.get("pregunta", "Pregunta desconocida")
-                    respuesta = r.get("respuesta", "Sin respuesta")
-                    resumen[pregunta][respuesta] += 1
-
+            resumen = resumen_total.get(eid, {})
             for pregunta, respuestas in resumen.items():
                 self.text.insert(tk.END, f"❓ {pregunta}\n")
                 for resp, count in respuestas.items():

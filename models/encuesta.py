@@ -11,7 +11,6 @@ class Encuesta:
             "descripcion": descripcion,
             "preguntas": preguntas,
             "creado_por": creado_por,
-            "respuestas": [],
             "estado": "activa"
         }
         resultado = self.db.insert_one(encuesta)

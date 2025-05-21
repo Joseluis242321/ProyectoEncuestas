@@ -44,6 +44,8 @@ class DashboardAdmin:
         ventana_login = tk.Tk()
         LoginWindow(ventana_login)
         ventana_login.mainloop()
-
+        
     def gestionar_usuarios(self):
-        tk.messagebox.showinfo("Gestionar Usuarios", "Aquí se gestionarán los usuarios (implementación pendiente).")
+        ventana = tk.Toplevel(self.root)
+        from modules.admin.asignar_encuesta import AsignarEncuestaWindow
+        AsignarEncuestaWindow(ventana)

@@ -20,8 +20,12 @@ class ResponderEncuestaWindow:
         self.lista = tk.Listbox(self.root, width=60)
         self.lista.pack(pady=10)
 
-        self.encuestas = list(self.db.encuestas.find({"estado": "activa"}))
-        
+        encuestas_activas = list(self.db.encuestas.find({"estado": "activa"}))
+        self.encuestas = [
+            e for e in encuestas_activas
+            if not e.get("dirigido_a") or self.usuario in e.get("dirigido_a", [])
+        ]
+
         for e in self.encuestas:
             self.lista.insert(tk.END, f"{e['titulo']} - {e['descripcion']}")
 
@@ -59,24 +63,29 @@ class ResponderEncuestaWindow:
 
         tk.Button(self.root, text="Enviar Respuestas", bg="#2980b9", fg="white",
                   command=lambda: self.enviar_respuestas(encuesta)).pack(pady=15)
+
     def enviar_respuestas(self, encuesta):
         respuestas_colectadas = []
+
         for tipo, texto, widget in self.preguntas_widgets:
-            valor = widget.get().strip()
+            if tipo == "texto":
+                valor = widget.get().strip()
+            else:
+                valor = widget.get().strip()
+
             if not valor:
                 messagebox.showerror("Error", "Todas las preguntas deben ser respondidas.")
                 return
+
             respuestas_colectadas.append({"pregunta": texto, "respuesta": valor})
 
-        self.db.encuestas.update_one(
-            {"_id": ObjectId(encuesta["_id"])},
-            {"$push": {
-                "respuestas": {
-                    "usuario": self.usuario,
-                    "respuestas": respuestas_colectadas
-                }
-            }}
-        )
+        for r in respuestas_colectadas:
+            self.db.respuestas.insert_one({
+                "usuario": self.usuario,
+                "encuesta_id": ObjectId(encuesta["_id"]),
+                "pregunta": r["pregunta"],
+                "respuesta": r["respuesta"]
+            })
 
         messagebox.showinfo("Gracias", "Tus respuestas han sido registradas.")
-        self.root.destroy()
+        self.setup_gui()
