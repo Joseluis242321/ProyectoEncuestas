@@ -14,12 +14,12 @@ class MongoConnection:
         return self.db[name]
     
     def __enter__(self):
-        print("Mongoose is connected")
+        print("MongoDB is connected")
         return self
     
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.client.close()
-        print("Mongoose is disconnected")
+        print("MongoDB is disconnected")
 
 def db_connect():
     try:
